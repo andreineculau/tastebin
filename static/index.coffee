@@ -1,5 +1,5 @@
 $ () ->
-  data = ''
+  currentContent = ''
   $linenos = $ '#linenos'
   $linenosCode = $ '> code', $linenos
   $editor = $ '#editor'
@@ -10,16 +10,16 @@ $ () ->
   metaKeyName = 'Ctrl'
   metaKeyName = 'Cmd'  if /^Mac/.test navigator.platform
 
-  getContent = () ->
-    if $editorCode[0].innerText?
+  getDomContent = () ->
+    if 'innerText' of $editorCode[0]
       $editorCode[0].innerText
     else
       content = $editorCode[0].innerHTML
       content = content.replace /<br>/gi, '\n'
       he.decode content
 
-  setContent = (content) ->
-    if $editorCode[0].innerText?
+  setDomContent = (content) ->
+    if 'innerText' of $editorCode[0]
       $editorCode[0].innerText = content
     else
       content = content.replace
@@ -27,7 +27,7 @@ $ () ->
 
   startEditing = (evt) ->
     evt.preventDefault()
-    edit data
+    edit currentContent
     $editor.off 'dblclick', startEditing
     false
 
@@ -61,16 +61,15 @@ $ () ->
       method = 'POST'
       url = 'tastes/'
 
-    data = getContent().trim().replace(/\s+\n/g, '\n')
-    data += '\n'  if data.length
-    unless data.length
-      setContent(data)  if data isnt getContent()
-      return true
+    currentContent = getDomContent().trim().replace(/\s+\n/g, '\n')
+    currentContent += '\n'  if currentContent.length
+    setDomContent currentContent  if currentContent isnt getDomContent()
+    return true  unless currentContent.length
 
     always = () ->
       edit()
 
-    done = (responseData, status, xhr) ->
+    done = (body, status, xhr) ->
       if method is 'POST'
         window.location.hash = xhr.getResponseHeader 'Location'
       else
@@ -84,12 +83,12 @@ $ () ->
       method
       url
       contentType: 'application/octet-stream'
-      data
+      data: currentContent
     }).always(always).done(done).fail(fail)
     false
 
   edit = (content) ->
-    content ?= getContent()
+    content ?= getDomContent()
     $linenosCode.html "#{metaKeyName}+s to Save - Shift+#{metaKeyName}+s to Save As...".replace /(.)/g, '$1<br>'
     $editorCode.html(content).attr('contentEditable', 'true').focus()
     $editor.addClass('editing')
@@ -97,7 +96,7 @@ $ () ->
     $(window).on 'keydown', maybeSave
 
   lock = (content, lines = []) ->
-    content ?= getContent()
+    content ?= getDomContent()
     if Array.isArray lines
       if lines.length is 0
         linenosCount = content.split('\n').length
@@ -123,14 +122,15 @@ $ () ->
 
     [filename, language] = filename.split '.'
 
-    done = (data) ->
+    done = (body, status, xhr) ->
+      currentContent = body
       if language?
         try
-          high = hljs.highlight language, data
+          high = hljs.highlight language, currentContent
         catch e
-          high = {value: data}
+          high = {value: currentContent}
       else
-        high = hljs.highlightAuto data
+        high = hljs.highlightAuto currentContent
         if high.language?
           window.location.hash = "#{filename}.#{high.language}"
           return
