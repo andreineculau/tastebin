@@ -5,7 +5,9 @@ A pastebin with taste i.e. minimalistic
 * server: NodeJS, CoffeeScript, ExpressJS, ...
 * client: HTML5, CoffeeScript, HighlightJs, ...
 
-![SEEME](SEEME.png)
+![New](SEEME.png)
+![Edit](SEEME2.png)
+![Share](SEEME3.png)
 
 ## Install and run
 
