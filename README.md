@@ -25,6 +25,12 @@ npm install
 npm start
 ```
 
+In production, try
+
+* [forever](https://github.com/foreverjs/forever)
+* [upstarter](https://github.com/carlos8f/node-upstarter)
+* ...
+
 
 ## Tested browsers
 
