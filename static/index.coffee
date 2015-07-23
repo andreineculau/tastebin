@@ -10,6 +10,17 @@ $ () ->
   metaKeyName = 'Ctrl'
   metaKeyName = 'Cmd'  if /^Mac/.test navigator.platform
 
+  unless $editorCode[0].innerText?
+    $(document.body).html ''
+    window.alert "Your browser doesn't support innerText, so it is not supported. Yet."
+    return
+
+  getContent = () ->
+    $editorCode[0].innerText
+
+  setContent = (content) ->
+    $editorCode[0].innerText = content
+
   startEditing = (evt) ->
     evt.preventDefault()
     edit data
@@ -46,11 +57,10 @@ $ () ->
       method = 'POST'
       url = 'tastes/'
 
-    data = $editorCode[0].innerText.trim().replace(/\s+\n/g, '\n')
+    data = getContent().trim().replace(/\s+\n/g, '\n')
     data += '\n'  if data.length
     unless data.length
-      if data isnt $editorCode[0].innerText
-        $editorCode[0].innerText = data
+      setContent(data)  if data isnt getContent()
       return true
 
     always = () ->
@@ -74,14 +84,16 @@ $ () ->
     }).always(always).done(done).fail(fail)
     false
 
-  edit = (content = $editorCode[0].innerText) ->
+  edit = (content) ->
+    content ?= getContent()
     $linenosCode.html "#{metaKeyName}+s to Save - Shift+#{metaKeyName}+s to Save As...".replace /(.)/g, '$1<br>'
     $editorCode.html(content).attr('contentEditable', 'true').focus()
     $editor.addClass('editing')
     $(window).off 'keydown', disableSave
     $(window).on 'keydown', maybeSave
 
-  lock = (content = $editorCode[0].innerText, lines = []) ->
+  lock = (content, lines = []) ->
+    content ?= getContent()
     if Array.isArray lines
       if lines.length is 0
         linenosCount = content.split('\n').length
