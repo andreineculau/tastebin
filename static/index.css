@@ -1,0 +1,39 @@
+body {
+    padding: 0px !important;
+    padding-left: 75px !important;
+}
+
+#style {
+    position: absolute;
+    right: 0px;
+}
+
+#linenos {
+    position: absolute;
+    left: 0px;
+    width: 70px;
+    margin: 0px;
+}
+
+#linenos > code {
+    display: block;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    text-align: right;
+    min-height: 95vh;
+}
+
+#editor {
+    margin: 0px;
+    outline: none;
+    min-height: 95vh;
+}
+
+#editor.editing {
+    min-height: 0px;
+    box-shadow: -75px 0px 0px 0px red;
+}
+
+#editor > code {
+    outline: none;
+}

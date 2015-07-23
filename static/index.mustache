@@ -1,0 +1,40 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang=""><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang=""><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang=""><!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{{config.title}}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--[if IE]><link rel="shortcut icon" href="favicon.ico"><![endif]-->
+    <link rel="icon" href="favicon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="stylesheet" href="bower_components/normalize-css/normalize.css">
+    <link rel="stylesheet" href="bower_components/highlightjs/styles/{{config.style}}.css" id="selectedStyle">
+    <link rel="stylesheet" href="index.css">
+    {{config.stylesheets}}
+  </head>
+  <body class="hljs">
+    <select id="style">{{& config.stylesHtml}}</select>
+    <pre id="linenos"><code class="hljs"></code></pre>
+    <pre id="editor" tabindex="0"><code spellcheck="false" class="hljs"></code></pre>
+
+    <script src="index.coffee" type="text/coffeescript"></script>
+
+    <script src="https://browser-update.org/update.min.js"></script>
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/highlightjs/highlight.pack.js"></script>
+    {{config.scripts}}
+    <script src="bower_components/coffeescript/extras/coffee-script.js"></script>
+  </body>
+</html>
+<!--
+Powered by TasteBin. A pastebin with taste i.e. minimalistic
+https://github.com/andreineculau/tastebin
+-->

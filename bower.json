@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "tastebin",
+  "dependencies": {
+    "jquery": "2.1.4",
+    "normalize-css": "~3.0.3",
+    "coffeescript": "1.9.3",
+    "highlightjs": "~8.6.0",
+    "modernizr": "~2.8.3",
+    "coffee-script": "1.9.3"
+  },
+  "devDependencies": {}
+}
