@@ -10,16 +10,20 @@ $ () ->
   metaKeyName = 'Ctrl'
   metaKeyName = 'Cmd'  if /^Mac/.test navigator.platform
 
-  unless $editorCode[0].innerText?
-    $(document.body).html ''
-    window.alert "Your browser doesn't support innerText, so it is not supported. Yet."
-    return
-
   getContent = () ->
-    $editorCode[0].innerText
+    if $editorCode[0].innerText?
+      $editorCode[0].innerText
+    else
+      content = $editorCode[0].innerHTML
+      content = content.replace /<br>/gi, '\n'
+      he.decode content
 
   setContent = (content) ->
-    $editorCode[0].innerText = content
+    if $editorCode[0].innerText?
+      $editorCode[0].innerText = content
+    else
+      content = content.replace
+      $editorCode[0].innerHTML = he.encode content
 
   startEditing = (evt) ->
     evt.preventDefault()

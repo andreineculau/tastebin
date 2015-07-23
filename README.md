@@ -37,7 +37,7 @@ In production, try
 * Chrome 44
 * Opera 30
 * Safari 8
-* ~~Firefox 35~~ (does not support innerText; workaround needed)
+* Firefox 39
 
 
 ## Shell with curl/httpie
