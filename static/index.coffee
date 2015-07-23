@@ -112,7 +112,7 @@ $ () ->
     $(window).off 'keydown', maybeSave
 
   tryLoading = (hash) ->
-    filename = hash.replace /[^A-Za-z\.]/, ''
+    filename = hash.replace /[^A-Za-z0-9\-_\.]/, ''
     if filename isnt hash
       window.location.hash = "#{filename}"
       return
