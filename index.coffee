@@ -7,10 +7,12 @@ rawBody = require 'raw-body'
 mediaTyper = require 'media-typer'
 
 module.exports = exports = (config = {}) ->
-  config.stylesHtml = for style in config.styles
+  config.stylesHtml = ['\n']
+  for style in config.styles
     selected = ''
     selected = ' selected'  if style is config.style
-    "<option#{selected} value=\"#{style}\">#{style}</option>"
+    config.stylesHtml.push "<option#{selected} value=\"#{style}\">#{style}</option>\n"
+  config.stylesHtml = config.stylesHtml.join ''
 
   app = express.Router({strict: true})
   {setCommonHeaders, saveFile} = exports
