@@ -23,6 +23,19 @@ npm start
 
 * Chrome 44
 
+## Shell with curl/httpie
+
+```sh
+export TASTEBIN_URL="http://localhost:3000"
+source tastebin.curl.sh # or tastebin.httpie.sh
+
+# Save taste
+echo "foo" | tastebin_save
+
+# Save taste as...
+echo "foo" | tastebin_save_as mynewtaste
+```
+
 ## License
 
 [Apache 2.0](LICENSE)
