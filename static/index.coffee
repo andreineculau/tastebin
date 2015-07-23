@@ -10,9 +10,11 @@ $ () ->
   metaKeyName = 'Ctrl'
   metaKeyName = 'Cmd'  if /^Mac/.test navigator.platform
 
-  startEditing = () ->
+  startEditing = (evt) ->
+    evt.preventDefault()
     edit data
     $editor.off 'dblclick', startEditing
+    return false
 
   maybeSave = (evt) ->
     metaKey = evt.ctrlKey
