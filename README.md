@@ -9,9 +9,11 @@ A pastebin with taste i.e. minimalistic
 ![Edit](SEEME2.png)
 ![Share](SEEME3.png)
 
+
 ## Demo link
 
 A friend of mine fired it up at http://tastebin.x-berg.de/ . Thanks, [Stefan](https://github.com/sstrigler)! :)
+
 
 ## Install and run
 
@@ -23,9 +25,11 @@ npm install
 npm start
 ```
 
+
 ## Tested browsers
 
 * Chrome 44
+
 
 ## Shell with curl/httpie
 
@@ -39,6 +43,7 @@ echo "foo" | tastebin_save
 # Save taste as...
 echo "foo" | tastebin_save_as mynewtaste
 ```
+
 
 ## License
 
