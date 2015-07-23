@@ -8,6 +8,11 @@ module.exports = {
     module: 'http'
     port: 3000
     options: undefined
+    headers:
+      'Cache-Control': 'no-cache, no-store, must-revalidate'
+      'Pragma': 'no-cache'
+      'Expires': '0'
+      'Server': "#{pkg.name}/#{pkg.version}"
   ],
 
   title: 'Tastebin'

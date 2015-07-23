@@ -15,12 +15,9 @@ module.exports = exports = (config = {}) ->
   config.stylesHtml = config.stylesHtml.join ''
 
   app = express.Router({strict: true})
-  {setCommonHeaders, saveFile} = exports
+  {saveFile} = exports
 
   app.use morgan config.morgan.format
-  app.use (req, res, next) ->
-    setCommonHeaders res, config
-    next()
 
   app.get '/', (req, res, next) ->
     res.render 'index', {config}
@@ -58,12 +55,3 @@ exports.saveFile = (relPath, req, res, next) ->
   }, (err, data) ->
     return next err  if err?
     fs.writeFile relPath, data, {encoding}, next
-
-
-exports.setCommonHeaders = (res, config) ->
-  res.set {
-    'Cache-Control': 'no-cache, no-store, must-revalidate'
-    'Pragma': 'no-cache'
-    'Expires': '0'
-    'Server': "#{config.pkg.name}/#{config.pkg.version}"
-  }
