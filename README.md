@@ -5,6 +5,8 @@ A pastebin with taste i.e. minimalistic
 * server: NodeJS, CoffeeScript, ExpressJS, ...
 * client: HTML5, CoffeeScript, HighlightJs, ...
 
+![SEEME](SEEME.png)
+
 ## Install and run
 
 ```sh
