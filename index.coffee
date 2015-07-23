@@ -13,9 +13,12 @@ module.exports = exports = (config = {}) ->
     "<option#{selected} value=\"#{style}\">#{style}</option>"
 
   app = express.Router({strict: true})
-  {setHeaders, saveFile} = exports
+  {setCommonHeaders, saveFile} = exports
 
   app.use morgan config.morgan.format
+  app.use (req, res, next) ->
+    setCommonHeaders res, config
+    next()
 
   app.get '/', (req, res, next) ->
     res.render 'index', {config}
@@ -37,8 +40,8 @@ module.exports = exports = (config = {}) ->
         return next err  if err?
         res.status(204).send()
 
-  app.use '/tastes', serveStatic 'tastes', {setHeaders}
-  app.use serveStatic 'static', {setHeaders}
+  app.use '/tastes', serveStatic 'tastes'
+  app.use serveStatic 'static'
   app
 
 
@@ -55,9 +58,10 @@ exports.saveFile = (relPath, req, res, next) ->
     fs.writeFile relPath, data, {encoding}, next
 
 
-exports.setHeaders = (res, path) ->
+exports.setCommonHeaders = (res, config) ->
   res.set {
     'Cache-Control': 'no-cache, no-store, must-revalidate'
     'Pragma': 'no-cache'
     'Expires': '0'
+    'Server': "#{config.pkg.name}/#{config.pkg.version}"
   }

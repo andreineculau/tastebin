@@ -1,6 +1,8 @@
+pkg = require './package.json'
 phonetic = require 'phonetic'
 
 module.exports = {
+  pkg
   listenOn: [
     protocol: 'http'
     module: 'http'
