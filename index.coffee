@@ -43,7 +43,9 @@ module.exports = exports = (config = {}) ->
 
 
 exports.saveFile = (relPath, req, res, next) ->
-  encoding = mediaTyper.parse(req.headers['content-type']).parameters.charset
+  contentType = req.headers['content-type']
+  encoding = 'utf-8'
+  encoding = mediaTyper.parse(contentType).parameters.charset  if contentType?
   rawBody req, {
     length: req.headers['content-length']
     limit: '1mb'
