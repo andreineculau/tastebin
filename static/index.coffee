@@ -16,12 +16,21 @@ $ () ->
     $editor.off 'dblclick', startEditing
     false
 
-  maybeSave = (evt) ->
+  wantsToSave = (evt) ->
     metaKey = evt.ctrlKey
     metaKey = evt.metaKey  if /^Mac/.test navigator.platform
-    return true  unless metaKey
+    return false  unless metaKey
     char = String.fromCharCode(evt.which).toLowerCase()
-    return true  unless char is 's'
+    return false  unless char is 's'
+    true
+
+  disableSave = (evt) ->
+    return true  unless wantsToSave evt
+    evt.preventDefault()
+    false
+
+  maybeSave = (evt) ->
+    return true  unless wantsToSave evt
     evt.preventDefault()
 
     if evt.shiftKey
@@ -69,6 +78,7 @@ $ () ->
     $linenosCode.html "#{metaKeyName}+s to Save - Shift+#{metaKeyName}+s to Save As...".replace /(.)/g, '$1<br>'
     $editorCode.html(content).attr('contentEditable', 'true').focus()
     $editor.addClass('editing')
+    $(window).off 'keydown', disableSave
     $(window).on 'keydown', maybeSave
 
   lock = (content = $editorCode[0].innerText, lines = []) ->
@@ -82,6 +92,7 @@ $ () ->
     $editorCode.html(content).attr 'contentEditable', 'false'
     $editor.removeClass('editing')
     $editor.on 'dblclick', startEditing
+    $(window).on 'keydown', disableSave
     $(window).off 'keydown', maybeSave
 
   tryLoading = (hash) ->
