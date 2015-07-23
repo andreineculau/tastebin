@@ -15,7 +15,7 @@ module.exports = {
       'Server': "#{pkg.name}/#{pkg.version}"
   ],
 
-  title: 'Tastebin'
+  title: "#{pkg.name}/#{pkg.version}"
   subpath: '/'
   style: 'solarized_dark'
   styles: [
