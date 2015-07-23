@@ -14,7 +14,7 @@ $ () ->
     evt.preventDefault()
     edit data
     $editor.off 'dblclick', startEditing
-    return false
+    false
 
   maybeSave = (evt) ->
     metaKey = evt.ctrlKey
@@ -63,7 +63,7 @@ $ () ->
       contentType: 'application/octet-stream'
       data
     }).always(always).done(done).fail(fail)
-    return false
+    false
 
   edit = (content = $editorCode[0].innerText) ->
     $linenosCode.html "#{metaKeyName}+s to Save - Shift+#{metaKeyName}+s to Save As...".replace /(.)/g, '$1<br>'
