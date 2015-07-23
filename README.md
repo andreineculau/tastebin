@@ -9,6 +9,10 @@ A pastebin with taste i.e. minimalistic
 ![Edit](SEEME2.png)
 ![Share](SEEME3.png)
 
+## Demo link
+
+A friend of mine fired it up at http://tastebin.x-berg.de/ . Thanks, [Stefan](https://github.com/sstrigler)! :)
+
 ## Install and run
 
 ```sh
