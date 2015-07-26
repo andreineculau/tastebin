@@ -15,7 +15,7 @@ body {
     margin: 0px;
 }
 
-#linenos > code {
+#linenos > code:nth-child(1) {
     display: block;
     padding-left: 10px !important;
     padding-right: 10px !important;
@@ -34,6 +34,30 @@ body {
     box-shadow: -75px 0px 0px 0px red;
 }
 
-#editor > code {
+#editor > code:nth-child(1) {
     outline: none;
+}
+
+#list {
+    opacity: 0.25;
+}
+
+#list:hover {
+    opacity: 1;
+}
+
+#list > ol {
+    margin: 0px;
+}
+
+#list > ol > li:hover {
+    text-decoration: underline;
+}
+
+#list > ol > li > a {
+    text-decoration: none;
+}
+
+#newTaste {
+    display: none;
 }

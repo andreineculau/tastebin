@@ -1,14 +1,17 @@
 $ () ->
   currentContent = ''
-  $linenos = $ '#linenos'
-  $linenosCode = $ '> code', $linenos
-  $editor = $ '#editor'
-  $editorCode = $ '> code', $editor
+  $window = $ window
   $style = $ '#style'
   $selectedStyle = $ '#selectedStyle'
+  $linenos = $ '#linenos'
+  $linenosCode = $ '> code:first', $linenos
+  $editor = $ '#editor'
+  $editorCode = $ '> code:first', $editor
+  $list = $ '#list'
 
   metaKeyName = 'Ctrl'
   metaKeyName = 'Cmd'  if /^Mac/.test navigator.platform
+  newTaste = $('#newTaste').html().replace /#{metaKeyName}/g, metaKeyName
 
   getDomContent = () ->
     if 'innerText' of $editorCode[0]
@@ -28,7 +31,15 @@ $ () ->
   startEditing = (evt) ->
     evt.preventDefault()
     edit currentContent
-    $editor.off 'dblclick', startEditing
+    $window.off 'dblclick', startEditing
+    window.getSelection()?.removeAllRanges()
+    false
+
+  maybeCancelEditing = (evt) ->
+    return true  unless evt.which is 27
+    evt.preventDefault()
+    hash = window.location.hash.replace /^#/, ''
+    tryLoading hash
     false
 
   wantsToSave = (evt) ->
@@ -89,11 +100,12 @@ $ () ->
 
   edit = (content) ->
     content ?= getDomContent()
-    $linenosCode.html "#{metaKeyName}+s to Save - Shift+#{metaKeyName}+s to Save As...".replace /(.)/g, '$1<br>'
+    $list.hide()
+    $linenosCode.html "#{metaKeyName}+s to Save - Shift+#{metaKeyName}+s to Save As".replace /(.)/g, '$1<br>'
     $editorCode.html(content).attr('contentEditable', 'true').focus()
     $editor.addClass('editing')
-    $(window).off 'keydown', disableSave
-    $(window).on 'keydown', maybeSave
+    $window.off 'keydown', disableSave
+    $window.on 'keydown', maybeSave
 
   lock = (content, lines = []) ->
     content ?= getDomContent()
@@ -106,9 +118,37 @@ $ () ->
     $linenosCode.html lines.join '<br>'
     $editorCode.html(content).attr 'contentEditable', 'false'
     $editor.removeClass('editing')
-    $editor.on 'dblclick', startEditing
-    $(window).on 'keydown', disableSave
-    $(window).off 'keydown', maybeSave
+    $window.on 'dblclick', startEditing
+    $window.on 'keydown', maybeCancelEditing
+    $window.on 'keydown', disableSave
+    $window.off 'keydown', maybeSave
+
+  list = () ->
+    always = () ->
+      lock newTaste, ''
+
+    done = (body, status, xhr) ->
+      files = body.split '\n'
+      files = files.map (file) ->
+        [date, time, filename] = file.split ' '
+        {
+          date
+          time
+          filename
+        }
+      filesHtml = files.map ({date, time, filename}) ->
+        return ''  unless filename?.length
+        "<li>#{date} #{time} <a href=\"\##{filename}\" class=\"hljs-string\">#{filename}</a></li>"
+      filesHtml = filesHtml.join ''
+      filesHtml = "<ol reversed>#{filesHtml}</ol>"
+      $list.html(filesHtml).css 'display', ''
+
+    fail = () ->
+
+    $.ajax({
+      method: 'GET'
+      url: 'tastes'
+    }).always(always).done(done).fail(fail)
 
   tryLoading = (hash) ->
     filename = hash.replace /[^A-Za-z0-9\-_\.]/, ''
@@ -117,10 +157,13 @@ $ () ->
       return
 
     unless filename
-      lock 'New taste...\nDouble click to start editing'
+      list()
       return
 
-    [filename, language] = filename.split '.'
+    $list.hide()
+    if filename.indexOf('.') > 0
+      [filename..., language] = filename.split '.'
+      filename = filename.join '.'
 
     done = (body, status, xhr) ->
       currentContent = body
@@ -132,8 +175,9 @@ $ () ->
       else
         high = hljs.highlightAuto currentContent
         if high.language?
-          window.location.hash = "#{filename}.#{high.language}"
-          return
+          history.replaceState undefined, undefined, "\##{filename}.#{high.language}"
+          # window.location.hash = "#{filename}.#{high.language}"
+          # return
 
       lock high.value
 
@@ -142,7 +186,8 @@ $ () ->
       lock '', 'Failed to load...'
 
     lock '', 'Loading...'
-    $editor.off 'dblclick', startEditing
+    $window.off 'dblclick', startEditing
+    $window.off 'keydown', maybeCancelEditing
     $.ajax({
       url: "tastes/#{filename}"
     }).done(done).fail(fail)

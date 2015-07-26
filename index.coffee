@@ -5,6 +5,7 @@ morgan = require 'morgan'
 serveStatic = require 'serve-static'
 rawBody = require 'raw-body'
 mediaTyper = require 'media-typer'
+execFile = require('child_process').execFile
 
 module.exports = exports = (config = {}) ->
   config.stylesHtml = ['\n']
@@ -21,6 +22,17 @@ module.exports = exports = (config = {}) ->
 
   app.get '/', (req, res, next) ->
     res.render 'index', {config}
+
+  app.get '/tastes/', (req, res, next) ->
+    unless config.maxListCount? and config.maxListCount > 0
+      res.status(200).set('Content-Type', 'text/plain').send()
+      return
+    maxListCount = config.maxListCount + 1
+    shCmd = "ls -tlA | head -#{maxListCount} | tail -n +2 | tr -s ' ' | cut -d' ' -f6,7,8"
+    execOptions = {cwd: "#{__dirname}/tastes/"}
+    execFile '/bin/sh', ['-c', shCmd], execOptions, (err, stdout, stderr) ->
+      return next err  if err?
+      res.status(200).set('Content-Type', 'text/plain').send stdout
 
   app.post '/tastes/', (req, res, next) ->
     loop
@@ -39,7 +51,7 @@ module.exports = exports = (config = {}) ->
         return next err  if err?
         res.status(204).send()
 
-  app.use '/tastes', serveStatic 'tastes'
+  app.use '/tastes', serveStatic 'tastes', {dotfiles: 'allow'}
   app.use serveStatic 'static'
   app
 

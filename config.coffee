@@ -2,6 +2,7 @@ pkg = require './package.json'
 phonetic = require 'phonetic'
 
 module.exports = {
+  # backend-only vars
   pkg
   listenOn: [
     protocol: 'http'
@@ -14,9 +15,23 @@ module.exports = {
       'Expires': '0'
       'Server': "#{pkg.name}/#{pkg.version}"
   ],
-
-  title: "#{pkg.name}/#{pkg.version}"
+  # https://github.com/expressjs/morgan
+  morgan:
+    format: 'common'
   subpath: '/'
+  generate: () ->
+  maxListCount: 100        # list only the most recent 100 tastes
+    phonetic.generate {syllables: 10, capFirst: false}
+
+  # backend & frontend vars
+  title: "#{pkg.name}/#{pkg.version}"
+  newTaste: [
+    'A. Double click to start editing'
+    'B. \#{metaKeyName}+S to Save'
+    '   \#{metaKeyName}+Shift+S to Save As'
+    '   Save As with a leading dot to hide'
+    'C. Esc to cancel editing'
+  ].join '\n'
   style: 'solarized_dark'
   styles: [
     'agate'
@@ -85,10 +100,4 @@ module.exports = {
   ]
   stylesheets: undefined
   scripts: undefined
-  generate: () ->
-    phonetic.generate {syllables: 10, capFirst: false}
-
-  # https://github.com/expressjs/morgan
-  morgan:
-    format: 'common'
 }
