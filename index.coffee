@@ -38,7 +38,7 @@ module.exports = exports = (config = {}) ->
       res.status(200).set('Content-Type', 'text/plain').send()
       return
     maxListCount = config.maxListCount + 1
-    shCmd = "ls -tlA | head -#{maxListCount} | tail -n +2 | tr -s ' ' | cut -d' ' -f6,7,8"
+    shCmd = "ls -tl | head -#{maxListCount} | tail -n +2 | tr -s ' ' | cut -d' ' -f6,7,8"
     execOptions = {cwd: "#{__dirname}/tastes/"}
     execFile '/bin/sh', ['-c', shCmd], execOptions, (err, stdout, stderr) ->
       return next err  if err?
