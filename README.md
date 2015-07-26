@@ -8,6 +8,7 @@ A pastebin with taste i.e. minimalistic
 ![New](SEEME.png)
 ![Edit](SEEME2.png)
 ![Share](SEEME3.png)
+![List](SEEME4.png)
 
 
 ## Demo link
