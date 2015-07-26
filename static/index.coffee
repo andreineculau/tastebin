@@ -138,9 +138,8 @@ $ () ->
         }
       filesHtml = files.map ({date, time, filename}) ->
         return ''  unless filename?.length
-        "<li>#{date} #{time} <a href=\"\##{filename}\" class=\"hljs-string\">#{filename}</a></li>"
+        "#{date} #{time} <a href=\"\##{filename}\" class=\"hljs-string\">#{filename}</a>\n"
       filesHtml = filesHtml.join ''
-      filesHtml = "<ol reversed>#{filesHtml}</ol>"
       $list.html(filesHtml).css 'display', ''
 
     fail = () ->
