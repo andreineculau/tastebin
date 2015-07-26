@@ -38,6 +38,13 @@ $ () ->
     tryLoading hash
     false
 
+  cleanupPaste = () ->
+    # erase any style
+    setDomContent getDomContent()
+
+  scheduleCleanupPaste = (evt) ->
+    setTimeout cleanupPaste, 100
+
   keepFocus = () ->
     $editorCode.focus()
 
@@ -206,6 +213,8 @@ $ () ->
   localStyle = window.localStorage.getItem 'style'
   if localStyle?
     $("> option[value=\"#{localStyle}\"]", $style).prop('selected', 'selected').change()
+
+  $editorCode.on 'paste', scheduleCleanupPaste
 
   hash = window.location.hash.replace /^#/, ''
   tryLoading hash
