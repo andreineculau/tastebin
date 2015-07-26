@@ -21,6 +21,7 @@ module.exports = {
   subpath: '/'
   generate: () ->
   maxListCount: 100        # list only the most recent 100 tastes
+  maxFilenameLength: 256   # allow tastes to have maximum 256 characters
     phonetic.generate {syllables: 10, capFirst: false}
   maxList: 100
   maxSize: '1mb'
