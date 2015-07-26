@@ -38,6 +38,9 @@ $ () ->
     tryLoading hash
     false
 
+  keepFocus = () ->
+    $editorCode.focus()
+
   wantsToSave = (evt) ->
     metaKey = evt.ctrlKey
     metaKey = evt.metaKey  if /^Mac/.test navigator.platform
@@ -99,6 +102,7 @@ $ () ->
     $list.hide()
     $linenosCode.html "Esc - #{metaKeyName}+s - Shift+#{metaKeyName}+s".replace /(.)/g, '$1<br>'
     $editorCode.html(content).attr('contentEditable', 'true').focus()
+    $editorCode.on 'blur', keepFocus
     $editor.addClass('editing')
     $body.off 'keydown', disableSave
     $body.on 'keydown', maybeSave
@@ -113,6 +117,7 @@ $ () ->
       lines = lines.split ''
     $linenosCode.html lines.join '<br>'
     $editorCode.html(content).attr 'contentEditable', 'false'
+    $editorCode.off 'blur', keepFocus
     $editor.removeClass('editing')
     $body.on 'dblclick', startEditing
     $body.on 'keydown', maybeCancelEditing
