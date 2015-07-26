@@ -49,7 +49,7 @@ module.exports = exports = (config = {}) ->
       filename = config.generate()
       break  unless fs.existsSync(filename)
     relPath = "tastes/#{filename}"
-    saveFile relPath, req, res, (err) ->
+    saveFile relPath, config, req, res, (err) ->
       return next err  if err?
       res.status(201).location("#{filename}").send()
 
@@ -59,7 +59,7 @@ module.exports = exports = (config = {}) ->
     relPath = "tastes/#{req.params.filename}"
     fs.exists relPath, (exists) ->
       return res.status(409).send()  if exists
-      saveFile relPath, req, res, (err) ->
+      saveFile relPath, config, req, res, (err) ->
         return next err  if err?
         res.status(204).send()
 
@@ -68,7 +68,7 @@ module.exports = exports = (config = {}) ->
   app
 
 
-exports.saveFile = (relPath, req, res, next) ->
+exports.saveFile = (relPath, config, req, res, next) ->
   contentType = req.headers['content-type']
   encoding = 'utf-8'
   encoding = mediaTyper.parse(contentType).parameters.charset  if contentType?
