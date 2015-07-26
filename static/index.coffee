@@ -1,6 +1,7 @@
 $ () ->
   currentContent = ''
   $window = $ window
+  $body = $ window.document.body
   $style = $ '#style'
   $selectedStyle = $ '#selectedStyle'
   $linenos = $ '#linenos'
@@ -31,8 +32,8 @@ $ () ->
   startEditing = (evt) ->
     evt.preventDefault()
     edit currentContent
-    $window.off 'dblclick', startEditing
     window.getSelection()?.removeAllRanges()
+    $body.off 'dblclick', startEditing
     false
 
   maybeCancelEditing = (evt) ->
@@ -104,8 +105,8 @@ $ () ->
     $linenosCode.html "Esc - #{metaKeyName}+s - Shift+#{metaKeyName}+s".replace /(.)/g, '$1<br>'
     $editorCode.html(content).attr('contentEditable', 'true').focus()
     $editor.addClass('editing')
-    $window.off 'keydown', disableSave
-    $window.on 'keydown', maybeSave
+    $body.off 'keydown', disableSave
+    $body.on 'keydown', maybeSave
 
   lock = (content, lines = []) ->
     content ?= getDomContent()
@@ -118,10 +119,10 @@ $ () ->
     $linenosCode.html lines.join '<br>'
     $editorCode.html(content).attr 'contentEditable', 'false'
     $editor.removeClass('editing')
-    $window.on 'dblclick', startEditing
-    $window.on 'keydown', maybeCancelEditing
-    $window.on 'keydown', disableSave
-    $window.off 'keydown', maybeSave
+    $body.on 'dblclick', startEditing
+    $body.on 'keydown', maybeCancelEditing
+    $body.on 'keydown', disableSave
+    $body.off 'keydown', maybeSave
 
   list = () ->
     always = () ->
@@ -185,8 +186,8 @@ $ () ->
       lock '', 'Failed to load...'
 
     lock '', 'Loading...'
-    $window.off 'dblclick', startEditing
-    $window.off 'keydown', maybeCancelEditing
+    $body.off 'dblclick', startEditing
+    $body.off 'keydown', maybeCancelEditing
     $.ajax({
       url: "tastes/#{filename}"
     }).done(done).fail(fail)
