@@ -21,6 +21,16 @@ module.exports = exports = (config = {}) ->
   app.use morgan config.morgan.format
 
   app.get '/', (req, res, next) ->
+    do () ->
+      shCmd = [
+        "ls -tA | tail -n +#{config.maxLifetimeCount} | xargs rm"
+        "rm -rf `find ./ -mtime +#{config.maxLifetimeDays}`"
+      ]
+      if config.maxLifetimeIgnoreFilenames?.length
+        shCmd.unshift "touch #{config.maxLifetimeIgnoreFilenames}"
+      shCmd = shCmd.join '; '
+      execOptions = {cwd: "#{__dirname}/tastes/"}
+      execFile '/bin/sh', ['-c', shCmd], execOptions
     res.render 'index', {config}
 
   app.get '/tastes/', (req, res, next) ->
