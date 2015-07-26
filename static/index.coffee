@@ -154,7 +154,7 @@ $ () ->
 
     $.ajax({
       method: 'GET'
-      url: 'tastes'
+      url: 'tastes/'
     }).always(always).done(done).fail(fail)
 
   tryLoading = (hash) ->
