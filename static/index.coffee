@@ -101,7 +101,7 @@ $ () ->
   edit = (content) ->
     content ?= getDomContent()
     $list.hide()
-    $linenosCode.html "#{metaKeyName}+s to Save - Shift+#{metaKeyName}+s to Save As".replace /(.)/g, '$1<br>'
+    $linenosCode.html "Esc - #{metaKeyName}+s - Shift+#{metaKeyName}+s".replace /(.)/g, '$1<br>'
     $editorCode.html(content).attr('contentEditable', 'true').focus()
     $editor.addClass('editing')
     $window.off 'keydown', disableSave
