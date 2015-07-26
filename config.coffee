@@ -22,6 +22,8 @@ module.exports = {
   generate: () ->
   maxListCount: 100        # list only the most recent 100 tastes
     phonetic.generate {syllables: 10, capFirst: false}
+  maxList: 100
+  maxSize: '1mb'
 
   # backend & frontend vars
   title: "#{pkg.name}/#{pkg.version}"
