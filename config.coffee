@@ -38,8 +38,8 @@ module.exports = {
     '   Save As with a leading dot to hide'
     'C. Esc to cancel editing'
   ].join '\n'
-  stylesheets: []          # extra stylesheets
-  scripts: []              # extra scripts
+  stylesheets: ''          # extra stylesheets
+  scripts: ''              # extra scripts
   style: 'solarized_dark'  # default style
   styles: [                # available styles
     'agate'

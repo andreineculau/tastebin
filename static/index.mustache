@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="bower_components/normalize-css/normalize.css">
     <link rel="stylesheet" href="bower_components/highlightjs/styles/{{config.style}}.css" id="selectedStyle">
     <link rel="stylesheet" href="index.css">
-    {{config.stylesheets}}
+    {{& config.stylesheets}}
   </head>
   <body class="hljs">
     <select id="style">{{& config.stylesHtml}}</select>
@@ -33,7 +33,7 @@
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/highlightjs/highlight.pack.js"></script>
     <script src="bower_components/he/he.js"></script>
-    {{config.scripts}}
+    {{& config.scripts}}
     <script src="bower_components/coffee-script/extras/coffee-script.js"></script>
   </body>
 </html>
