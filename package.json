@@ -1,6 +1,6 @@
 {
   "name": "tastebin",
-  "version": "0.4.4",
+  "version": "0.5.0",
   "description": "A pastebin with taste i.e. minimalistic",
   "repository": {
     "type": "git",
