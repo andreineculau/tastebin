@@ -31,8 +31,8 @@ $ () ->
 
   startEditing = (evt) ->
     evt.preventDefault()
-    edit currentContent
     window.getSelection()?.removeAllRanges()
+    edit currentContent
     $body.off 'dblclick', startEditing
     false
 
