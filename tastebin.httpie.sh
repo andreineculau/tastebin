@@ -2,7 +2,7 @@
 
 tastebin_save() {
     local URL=${TASTEBIN_URL}/tastes/
-    http --check-status -p hb --pretty=all POST ${URL} | sed "s|Location\(.*\):\(.*\) |Location$1:$2 ${URL}|"
+    http --check-status -p hb --pretty=all POST ${URL} | sed "s|Location\(.*\):\(.*\) |Location\1:\2 ${URL}|"
 }
 
 tastebin_save_as() {
