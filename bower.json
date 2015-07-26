@@ -8,7 +8,8 @@
     "highlightjs": "~8.6.0",
     "modernizr": "~2.8.3",
     "coffee-script": "1.9.3",
-    "he": "~0.5.0"
+    "he": "~0.5.0",
+    "innerText-polyfill": "git://github.com/duckinator/innerText-polyfill.git"
   },
   "devDependencies": {}
 }

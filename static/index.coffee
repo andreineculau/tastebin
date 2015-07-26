@@ -15,12 +15,7 @@ $ () ->
   newTaste = $('#newTaste').html().replace /#{metaKeyName}/g, metaKeyName
 
   getDomContent = () ->
-    if 'innerText' of $editorCode[0]
-      $editorCode[0].innerText
-    else
-      content = $editorCode[0].innerHTML
-      content = content.replace /<br>/gi, '\n'
-      he.decode content
+    $editorCode[0].innerText
 
   setDomContent = (content) ->
     if 'innerText' of $editorCode[0]
