@@ -63,7 +63,7 @@ module.exports = exports = (config = {}) ->
         return next err  if err?
         res.status(204).send()
 
-  app.use '/tastes', serveStatic 'tastes', {dotfiles: 'allow'}
+  app.use '/tastes', serveStatic config.tastesDir, {dotfiles: 'allow'}
   app.use serveStatic 'static'
   app
 

@@ -16,6 +16,7 @@ module.exports = {
       'Server': "#{pkg.name}/#{pkg.version}"
   ],
   subpath: '/'             # host tastebin under a subpath
+  tastesDir: 'tastes'      # where are tastes stored
   maxListCount: 100        # list only the most recent 100 tastes
   maxSize: '128kb'         # allow only tastes smaller than 128 kilobytes
   maxFilenameLength: 256   # allow tastes to have maximum 256 characters
