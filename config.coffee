@@ -7,6 +7,7 @@ module.exports = {
   listenOn: [
     protocol: 'http'
     module: 'http'
+    hostname: '0.0.0.0'
     port: 3000
     options: undefined     # options for module.createServer
     headers:               # extra headers

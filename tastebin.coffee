@@ -27,7 +27,7 @@ for serverConfig in config.listenOn
   else
     server = module.createServer app
 
-  server.listen serverConfig.port, () ->
+  server.listen serverConfig.port, serverConfig.hostname, () ->
     address = server.address().address
     port = server.address().port
     debug "Server listening on #{serverConfig.protocol}://#{address}:#{port}"
