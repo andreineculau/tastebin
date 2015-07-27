@@ -26,6 +26,8 @@ npm install
 npm start
 ```
 
+Here's what you can configure out-of-the-box: [config.coffee](config.coffee).
+
 In production, try
 
 * [forever](https://github.com/foreverjs/forever)
