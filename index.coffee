@@ -8,12 +8,12 @@ mediaTyper = require 'media-typer'
 execFile = require('child_process').execFile
 
 module.exports = exports = (config = {}) ->
-  config.stylesHtml = ['\n']
-  for style in config.styles
+  config.hljsStylesHtml = ['\n']
+  for hljsStyle in config.hljsStyles
     selected = ''
-    selected = ' selected'  if style is config.style
-    config.stylesHtml.push "<option#{selected} value=\"#{style}\">#{style}</option>\n"
-  config.stylesHtml = config.stylesHtml.join ''
+    selected = ' selected'  if hljsStyle is config.hljsStyle
+    config.hljsStylesHtml.push "<option#{selected} value=\"#{hljsStyle}\">#{hljsStyle}</option>\n"
+  config.hljsStylesHtml = config.hljsStylesHtml.join ''
 
   app = express.Router({strict: true})
   {saveFile} = exports

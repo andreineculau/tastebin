@@ -2,8 +2,8 @@ $ () ->
   currentContent = ''
   $window = $ window
   $body = $ window.document.body
-  $style = $ '#style'
-  $selectedStyle = $ '#selectedStyle'
+  $hljsStyle = $ '#hljsStyle'
+  $selectedHljsStyle = $ '#selectedHljsStyle'
   $linenos = $ '#linenos'
   $linenosCode = $ '> code:first', $linenos
   $editor = $ '#editor'
@@ -39,7 +39,7 @@ $ () ->
     false
 
   cleanupPaste = () ->
-    # erase any style
+    # erase any styling
     setDomContent getDomContent()
 
   scheduleCleanupPaste = (evt) ->
@@ -203,16 +203,16 @@ $ () ->
     hash = evt.target.location.hash.replace /^#/, ''
     tryLoading hash
 
-  $style.on 'change', (evt) ->
-    style = this.value
-    href = $selectedStyle.attr 'href'
-    href = href.split('/').slice(0, -1).concat(["#{style}.css"]).join '/'
-    $selectedStyle.attr 'href', href
-    window.localStorage.setItem 'style', style
+  $hljsStyle.on 'change', (evt) ->
+    hljsStyle = this.value
+    href = $selectedHljsStyle.attr 'href'
+    href = href.split('/').slice(0, -1).concat(["#{hljsStyle}.css"]).join '/'
+    $selectedHljsStyle.attr 'href', href
+    window.localStorage.setItem 'hljsStyle', hljsStyle
 
-  localStyle = window.localStorage.getItem 'style'
-  if localStyle?
-    $("> option[value=\"#{localStyle}\"]", $style).prop('selected', 'selected').change()
+  localHljsStyle = window.localStorage.getItem 'hljsStyle'
+  if localHljsStyle?
+    $("> option[value=\"#{localHljsStyle}\"]", $hljsStyle).prop('selected', 'selected').change()
 
   $editorCode.on 'paste', scheduleCleanupPaste
 
