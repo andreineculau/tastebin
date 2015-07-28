@@ -178,7 +178,6 @@ $ () ->
       list()
       return
 
-    $list.hide()
     if filename.indexOf('.') > 0
       [filename..., language] = filename.split '.'
       filename = filename.join '.'

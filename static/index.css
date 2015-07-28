@@ -80,3 +80,7 @@ body.editing #editor {
 #list > ol > li > a {
     text-decoration: none;
 }
+
+body.editing #list {
+    display: none;
+}
