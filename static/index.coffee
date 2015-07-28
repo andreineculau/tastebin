@@ -18,7 +18,7 @@ $ () ->
   getDomContent = () ->
     $editorCode[0].innerText
 
-  setDomContent = (content) ->
+  setContent = (content) ->
     if 'innerText' of $editorCode[0]
       contentSrc = $editorCode[0].innerText = content
     else
