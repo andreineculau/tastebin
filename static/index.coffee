@@ -1,5 +1,5 @@
 $ () ->
-  currentContent = ''
+  contentSrc = ''
   $window = $ window
   $body = $ window.document.body
   $theme = $ '#theme'
@@ -20,10 +20,10 @@ $ () ->
 
   setDomContent = (content) ->
     if 'innerText' of $editorCode[0]
-      $editorCode[0].innerText = content
+      contentSrc = $editorCode[0].innerText = content
     else
       content = content.replace
-      $editorCode[0].innerHTML = he.encode content
+      contentSrc = $editorCode[0].innerHTML = he.encode content
 
   wantsToEdit = (evt) ->
     metaKey = evt.ctrlKey
@@ -48,7 +48,7 @@ $ () ->
 
   cleanupPaste = () ->
     # erase any styling
-    setDomContent getDomContent()
+    setContent getDomContent()
 
   scheduleCleanupPaste = (evt) ->
     setTimeout cleanupPaste, 100
@@ -86,10 +86,10 @@ $ () ->
       method = 'POST'
       url = 'tastes/'
 
-    currentContent = getDomContent().trim().replace(/\s+\n/g, '\n')
-    currentContent += '\n'  if currentContent.length
-    setDomContent currentContent  if currentContent isnt getDomContent()
-    return true  unless currentContent.length
+    contentSrc = getDomContent().trim().replace(/\s+\n/g, '\n')
+    contentSrc += '\n'  if contentSrc.length
+    setContent contentSrc  if contentSrc isnt getDomContent()
+    return true  unless contentSrc.length
 
     always = () ->
       edit()
@@ -102,30 +102,27 @@ $ () ->
 
     fail = () ->
       $linenosCode.html "Failed to save".replace /(.)/g, '$1<br>'
+      edit()
 
     lock null, 'Saving...'
     $.ajax({
       method
       url
       contentType: 'application/octet-stream'
-      data: currentContent
+      data: currentSrc
     }).always(always).done(done).fail(fail)
     false
 
-  edit = (content) ->
-    content ?= getDomContent()
-    $list.hide()
-    $linenosCode.html "Esc - #{metaKeyName}+s - Shift+#{metaKeyName}+s".replace /(.)/g, '$1<br>'
-    $editorCode.html content
-    $editorCode.attr('contentEditable', 'true').focus()
-    $editorCode.on 'blur', keepFocus
+  edit = (content = contentSrc) ->
+    $content.html content
+    $content.attr('contentEditable', 'true').focus()
+    $content.on 'blur', keepFocus
     $body.addClass 'editing'
     $body.off 'keydown', disableSave
     $body.on 'keydown', maybeSave
     $body.on 'keydown', maybeCancelEditing
 
-  lock = (content, lines = []) ->
-    content ?= getDomContent()
+  lock = (content = contentSrc, lines = [], language) ->
     if Array.isArray lines
       if lines.length is 0
         linenosCount = content.split('\n').length
@@ -185,19 +182,16 @@ $ () ->
       filename = filename.join '.'
 
     done = (body, status, xhr) ->
-      currentContent = body
+      setContent body
       if language?
         try
-          high = hljs.highlight language, currentContent
+          high = hljs.highlight language, body
         catch e
-          high = {value: currentContent}
+          high = {value: body}
       else
-        high = hljs.highlightAuto currentContent
+        high = hljs.highlightAuto body
         if high.language?
           history.replaceState undefined, undefined, "\##{filename}.#{high.language}"
-          # window.location.hash = "#{filename}.#{high.language}"
-          # return
-
       lock high.value
 
     fail = () ->
