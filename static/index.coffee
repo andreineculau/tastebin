@@ -35,7 +35,9 @@ $ () ->
 
   maybeStartEditing = (evt) ->
     return true  unless wantsToEdit evt
-    edit currentContent
+    evt.preventDefault()
+    edit contentSrc
+    false
 
   maybeCancelEditing = (evt) ->
     return true  unless evt.which is 27
@@ -51,7 +53,7 @@ $ () ->
   scheduleCleanupPaste = (evt) ->
     setTimeout cleanupPaste, 100
 
-  keepFocus = () ->
+  keepFocus = (evt) ->
     $editorCode.focus()
 
   wantsToSave = (evt) ->
