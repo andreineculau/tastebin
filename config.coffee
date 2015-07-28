@@ -42,6 +42,11 @@ module.exports = {
   ].join '\n'
   stylesheets: ''             # extra stylesheets
   scripts: ''                 # extra scripts
+  theme: 'index'              # default theme
+  themes: [                   # available themes
+    'index'
+    'distraction-free'
+  ]
   hljsStyle: 'solarized_dark' # default style
   hljsStyles: [               # available styles
     'agate'

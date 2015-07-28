@@ -15,6 +15,18 @@ body {
     opacity: 1;
 }
 
+#theme {
+    position: absolute;
+    right: 0px;
+    top: 1.5em;
+    opacity: 0.25;
+    z-index: 100;
+}
+
+#theme:hover {
+    opacity: 1;
+}
+
 #linenos {
     position: absolute;
     left: 0px;
@@ -31,12 +43,12 @@ body {
 }
 
 #editor {
-    margin: 0px;
+    margin: 0px auto;
     outline: none;
     min-height: 95vh;
 }
 
-#editor.editing {
+body.editing #editor {
     min-height: 0px;
     box-shadow: -75px 0px 0px 0px red;
 }

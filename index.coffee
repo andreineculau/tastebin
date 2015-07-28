@@ -6,21 +6,25 @@ serveStatic = require 'serve-static'
 rawBody = require 'raw-body'
 mediaTyper = require 'media-typer'
 execFile = require('child_process').execFile
+cookieParser = require 'cookie-parser'
 
 module.exports = exports = (config = {}) ->
+  defaultTheme = config.theme
+
   config.hljsStylesHtml = ['\n']
   for hljsStyle in config.hljsStyles
     selected = ''
     selected = ' selected'  if hljsStyle is config.hljsStyle
     config.hljsStylesHtml.push "<option#{selected} value=\"#{hljsStyle}\">#{hljsStyle}</option>\n"
   config.hljsStylesHtml = config.hljsStylesHtml.join ''
+  config.hljsStylesHtml = ''  if config.hljsStyles.length <= 1
 
-  app = express.Router({strict: true})
+  app = express.Router {strict: true}
   {saveFile} = exports
 
   app.use morgan config.morgan.format
 
-  app.get '/', (req, res, next) ->
+  app.get '/', cookieParser(), (req, res, next) ->
     do () ->
       shCmd = [
         "ls -tA | tail -n +#{config.maxLifetimeCount} | xargs rm"
@@ -31,7 +35,24 @@ module.exports = exports = (config = {}) ->
       shCmd = shCmd.join '; '
       execOptions = {cwd: "#{__dirname}/tastes/"}
       execFile '/bin/sh', ['-c', shCmd], execOptions
-    res.render 'index', {config}
+    config.theme = defaultTheme
+    config.theme = req.cookies.theme  if req.cookies?.theme in config.themes
+
+    tpl = "#{__dirname}/static/#{config.theme}.mustache"
+    unless fs.existsSync tpl
+      res.clearCookie 'theme'
+      config.theme = defaultTheme
+      tpl = "#{__dirname}/static/#{config.theme}.mustache"
+
+    config.themesHtml = ['\n']
+    for theme in config.themes
+      selected = ''
+      selected = ' selected'  if theme is config.theme
+      config.themesHtml.push "<option#{selected} value=\"#{theme}\">#{theme}</option>\n"
+    config.themesHtml = config.themesHtml.join ''
+    config.themesHtml = ''  if config.themes.length <= 1
+
+    res.render tpl, {config}
 
   app.get '/tastes/', (req, res, next) ->
     unless config.maxListCount? and config.maxListCount > 0

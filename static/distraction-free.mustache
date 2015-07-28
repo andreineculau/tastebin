@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="bower_components/normalize-css/normalize.css">
     <link rel="stylesheet" href="bower_components/highlightjs/styles/{{config.hljsStyle}}.css" id="selectedHljsStyle">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="distraction-free.css">
     {{& config.stylesheets}}
   </head>
   <body class="hljs">
@@ -24,7 +25,9 @@
     <select id="theme">{{& config.themesHtml}}</select>
 
     <pre id="linenos"><code class="hljs"></code></pre>
-    <pre id="editor"><code class="hljs"></code><code id="list" class="hljs"></code></pre>
+    <div id="tableCell">
+      <pre id="editor"><code class="hljs"></code><code id="list" class="hljs"></code></pre>
+    </div>
     <div id="newTaste">{{& config.newTaste}}</div>
 
     <script src="index.coffee" type="text/coffeescript"></script>

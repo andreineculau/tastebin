@@ -2,6 +2,7 @@ $ () ->
   currentContent = ''
   $window = $ window
   $body = $ window.document.body
+  $theme = $ '#theme'
   $hljsStyle = $ '#hljsStyle'
   $selectedHljsStyle = $ '#selectedHljsStyle'
   $linenos = $ '#linenos'
@@ -110,7 +111,7 @@ $ () ->
     $linenosCode.html "Esc - #{metaKeyName}+s - Shift+#{metaKeyName}+s".replace /(.)/g, '$1<br>'
     $editorCode.html(content).attr('contentEditable', 'true').focus()
     $editorCode.on 'blur', keepFocus
-    $editor.addClass('editing')
+    $body.addClass 'editing'
     $body.off 'keydown', disableSave
     $body.on 'keydown', maybeSave
 
@@ -125,7 +126,7 @@ $ () ->
     $linenosCode.html lines.join '<br>'
     $editorCode.html(content).attr 'contentEditable', 'false'
     $editorCode.off 'blur', keepFocus
-    $editor.removeClass('editing')
+    $body.removeClass 'editing'
     $body.on 'dblclick', startEditing
     $body.on 'keydown', maybeCancelEditing
     $body.on 'keydown', disableSave
@@ -203,6 +204,15 @@ $ () ->
     hash = evt.target.location.hash.replace /^#/, ''
     tryLoading hash
 
+  $theme.on 'change', (evt) ->
+    theme = this.value
+    $.cookie 'theme', theme
+    window.location.reload true
+
+  localTheme = $.cookie 'theme'
+  if localTheme?
+    $("> option[value=\"#{localTheme}\"]", $theme).prop 'selected', 'selected'
+
   $hljsStyle.on 'change', (evt) ->
     hljsStyle = this.value
     href = $selectedHljsStyle.attr 'href'
@@ -212,7 +222,7 @@ $ () ->
 
   localHljsStyle = window.localStorage.getItem 'hljsStyle'
   if localHljsStyle?
-    $("> option[value=\"#{localHljsStyle}\"]", $hljsStyle).prop('selected', 'selected').change()
+    $("> option[value=\"#{localHljsStyle}\"]", $hljsStyle).prop 'selected', 'selected'
 
   $editorCode.on 'paste', scheduleCleanupPaste
 

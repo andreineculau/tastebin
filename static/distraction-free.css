@@ -1,0 +1,32 @@
+#linenos,
+body.editing #hljsStyle,
+body.editing #theme {
+    display: none;
+}
+
+body {
+    display: table !important;
+    min-height: 100vh;
+    width: 100vw;
+    padding: 0px !important;
+}
+
+#tableCell {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+}
+
+#editor {
+    width: 33%;
+    min-height: 0px;
+    overflow: visible;
+}
+
+#editor > code:nth-child(1) {
+    overflow: visible;
+}
+
+body.editing #editor {
+    box-shadow: -1px 0px 0px 0px red;
+}
