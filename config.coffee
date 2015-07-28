@@ -34,7 +34,7 @@ module.exports = {
   # backend & frontend vars
   title: "#{pkg.name}/#{pkg.version}"
   newTaste: [              # content for the "new taste" page
-    'A. Double click to start editing'
+    'A. \#{metaKeyName}+E to Edit'
     'B. \#{metaKeyName}+S to Save'
     '   \#{metaKeyName}+Shift+S to Save As'
     '   Save As with a leading dot to hide'

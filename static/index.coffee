@@ -25,12 +25,17 @@ $ () ->
       content = content.replace
       $editorCode[0].innerHTML = he.encode content
 
-  startEditing = (evt) ->
-    evt.preventDefault()
-    window.getSelection()?.removeAllRanges()
-    edit currentContent
-    $body.off 'dblclick', startEditing
-    false
+  wantsToEdit = (evt) ->
+    metaKey = evt.ctrlKey
+    metaKey = evt.metaKey  if /^Mac/.test navigator.platform
+    return false  unless metaKey
+    char = String.fromCharCode(evt.which).toLowerCase()
+    return false  unless char is 'e'
+    true
+
+  maybeStartEditing = (evt) ->
+    return true  unless wantsToEdit evt
+    startEditing evt
 
   maybeCancelEditing = (evt) ->
     return true  unless evt.which is 27
@@ -109,11 +114,13 @@ $ () ->
     content ?= getDomContent()
     $list.hide()
     $linenosCode.html "Esc - #{metaKeyName}+s - Shift+#{metaKeyName}+s".replace /(.)/g, '$1<br>'
-    $editorCode.html(content).attr('contentEditable', 'true').focus()
+    $editorCode.html content
+    $editorCode.attr('contentEditable', 'true').focus()
     $editorCode.on 'blur', keepFocus
     $body.addClass 'editing'
     $body.off 'keydown', disableSave
     $body.on 'keydown', maybeSave
+    $body.on 'keydown', maybeCancelEditing
 
   lock = (content, lines = []) ->
     content ?= getDomContent()
@@ -124,13 +131,15 @@ $ () ->
     else
       lines = lines.split ''
     $linenosCode.html lines.join '<br>'
-    $editorCode.html(content).attr 'contentEditable', 'false'
+    $editorCode.html content
+
+    $editorCode.attr 'contentEditable', 'false'
     $editorCode.off 'blur', keepFocus
     $body.removeClass 'editing'
-    $body.on 'dblclick', startEditing
-    $body.on 'keydown', maybeCancelEditing
+    $body.on 'keydown', maybeStartEditing
     $body.on 'keydown', disableSave
     $body.off 'keydown', maybeSave
+    $body.off 'keydown', maybeCancelEditing
 
   list = () ->
     always = () ->
@@ -194,7 +203,7 @@ $ () ->
       lock '', 'Failed to load...'
 
     lock '', 'Loading...'
-    $body.off 'dblclick', startEditing
+    $body.off 'keydown', maybeStartEditing
     $body.off 'keydown', maybeCancelEditing
     $.ajax({
       url: "tastes/#{filename}"
