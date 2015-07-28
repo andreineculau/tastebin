@@ -27,6 +27,10 @@ body {
     opacity: 1;
 }
 
+#newTaste {
+    display: none;
+}
+
 #linenos {
     position: absolute;
     left: 0px;
@@ -75,8 +79,4 @@ body.editing #editor {
 
 #list > ol > li > a {
     text-decoration: none;
-}
-
-#newTaste {
-    display: none;
 }
