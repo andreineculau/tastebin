@@ -1,3 +1,4 @@
+fs = require 'fs'
 pkg = require './package.json'
 phonetic = require 'phonetic'
 
@@ -20,7 +21,11 @@ module.exports = {
   tastesDir: 'tastes'      # where are tastes stored
   git: {
     enable: true           # enable git versioning for tastes
-    remoteUrl: "#{__dirname}/.git" # enable pushing automatically to a remote
+    remoteUrl: do () ->    # enable pushing automatically to a remote
+      if fs.existsSync '.git'
+        "#{__dirname}/.git"
+      else
+        undefined
     upstream: 'tastes'     # which upstream branch to push to?
   }
   maxListCount: 100        # list only the most recent 100 tastes
