@@ -1,4 +1,5 @@
 fs = require 'fs'
+path = require 'path'
 debug = require('debug') 'tastebin'
 express = require 'express'
 morgan = require 'morgan'
