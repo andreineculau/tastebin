@@ -32,7 +32,12 @@ module.exports = exports = (config = {}) ->
     execFileSync '/bin/sh', ['-c', "git config user.email #{config.pkg.name}@localhost"], {cwd: config.tastesDir}
     if config.git.remoteUrl?
       execFileSync '/bin/sh', ['-c', "git config remote.origin.url #{config.git.remoteUrl}"], {cwd: config.tastesDir}
-
+      execFileSync '/bin/sh', ['-c', "git fetch origin"], {cwd: config.tastesDir}
+      execFileSync '/bin/sh', ['-c', "git reset --hard #{config.git.upstream}"], {cwd: config.tastesDir}
+    execFileSync '/bin/sh', ['-c', "git add -f ."], {cwd: config.tastesDir}
+    execFileSync '/bin/sh', ['-c', "git diff-index --quiet HEAD || git commit -m 'synced with file system'"], {cwd: config.tastesDir}
+    if config.git.remoteUrl?
+      execFileSync '/bin/sh', ['-c', "git push -f origin HEAD:#{config.git.upstream}"], {cwd: config.tastesDir}
   app = express.Router {strict: true}
   {saveFile} = exports
 
