@@ -35,7 +35,7 @@ $ () ->
 
   maybeStartEditing = (evt) ->
     return true  unless wantsToEdit evt
-    startEditing evt
+    edit currentContent
 
   maybeCancelEditing = (evt) ->
     return true  unless evt.which is 27
