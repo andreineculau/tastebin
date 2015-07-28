@@ -109,15 +109,15 @@ $ () ->
       method
       url
       contentType: 'application/octet-stream'
-      data: currentSrc
+      data: contentSrc
     }).always(always).done(done).fail(fail)
     false
 
   edit = (content = contentSrc) ->
-    $content.html content
-    $content.attr('contentEditable', 'true').focus()
+    $editorCode.html content
+    $editorCode.attr('contentEditable', 'true').focus()
     $body.addClass 'editing'
-    $content.on 'blur', keepFocus
+    $editorCode.on 'blur', keepFocus
     $body.off 'keydown', maybeStartEditing
     $body.off 'keydown', disableSave
     $body.on 'keydown', maybeSave
