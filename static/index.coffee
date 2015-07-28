@@ -86,7 +86,7 @@ $ () ->
       method = 'POST'
       url = 'tastes/'
 
-    contentSrc = getDomContent().trim().replace(/\s+\n/g, '\n')
+    contentSrc = getDomContent().trim().replace(/[ \t\r]+\n/g, '\n')
     contentSrc += '\n'  if contentSrc.length
     setContent contentSrc  if contentSrc isnt getDomContent()
     return true  unless contentSrc.length
