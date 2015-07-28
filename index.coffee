@@ -28,6 +28,8 @@ module.exports = exports = (config = {}) ->
 
   if config.git?.enable
     execFileSync '/bin/sh', ['-c', "git init"], {cwd: config.tastesDir}
+    execFileSync '/bin/sh', ['-c', "git config user.name #{config.pkg.name}"], {cwd: config.tastesDir}
+    execFileSync '/bin/sh', ['-c', "git config user.email #{config.pkg.name}@localhost"], {cwd: config.tastesDir}
     if config.git.remoteUrl?
       execFileSync '/bin/sh', ['-c', "git config remote.origin.url #{config.git.remoteUrl}"], {cwd: config.tastesDir}
 
