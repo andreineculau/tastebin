@@ -77,6 +77,8 @@ module.exports = exports = (config = {}) ->
   app.put '/tastes/:filename', (req, res, next) ->
     if req.params.filename.length > config.maxFilenameLength
       return res.status(414).send()
+    if "/#{req.params.filename}" isnt path.resolve '/', req.params.filename
+      return res.status(400).send()
     relPath = "tastes/#{req.params.filename}"
     fs.exists relPath, (exists) ->
       return res.status(409).send()  if exists
