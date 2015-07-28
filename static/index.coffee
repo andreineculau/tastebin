@@ -142,6 +142,7 @@ $ () ->
     $body.off 'keydown', maybeCancelEditing
 
   list = () ->
+    setContent ''
     always = () ->
       lock newTaste, ''
 
@@ -196,8 +197,8 @@ $ () ->
       lock high.value
 
     fail = () ->
-      # window.location.hash = ''
-      lock '', 'Failed to load...'
+      setContent ''
+      lock null, 'Failed to load...'
 
     lock '', 'Loading...'
     $body.off 'keydown', maybeStartEditing
