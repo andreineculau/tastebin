@@ -118,7 +118,7 @@ exports.saveFile = (filename, config, req, res, next) ->
       return next()  unless config.git?.enable
       execFile '/bin/sh', ['-c', "git add -f #{filename}"], {cwd: config.tastesDir}, (err) ->
         return next err  if err?
-        execFile '/bin/sh', ['-c', "git commit -m 'updated #{filename}'"], {cwd: config.tastesDir}, (err) ->
+        execFile '/bin/sh', ['-c', "git commit --allow-empty -m 'updated #{filename}'"], {cwd: config.tastesDir}, (err) ->
           return next err  if err?
           return next()  unless config.git.remoteUrl?
           execFile '/bin/sh', ['-c', "git push -f origin HEAD:#{config.git.upstream}"], {cwd: config.tastesDir}, next
