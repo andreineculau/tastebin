@@ -24,6 +24,13 @@ module.exports = exports = (config = {}) ->
   config.hljsStylesHtml = config.hljsStylesHtml.join ''
   config.hljsStylesHtml = ''  if config.hljsStyles.length <= 1
 
+  config.tastesDir = path.resolve __dirname, config.tastesDir
+
+  if config.git?.enable
+    execFileSync '/bin/sh', ['-c', "git init"], {cwd: config.tastesDir}
+    if config.git.remoteUrl?
+      execFileSync '/bin/sh', ['-c', "git config remote.origin.url #{config.git.remoteUrl}"], {cwd: config.tastesDir}
+
   app = express.Router {strict: true}
   {saveFile} = exports
 
@@ -74,8 +81,7 @@ module.exports = exports = (config = {}) ->
     loop
       filename = config.generate()
       break  unless fs.existsSync(filename)
-    relPath = "tastes/#{filename}"
-    saveFile relPath, config, req, res, (err) ->
+    saveFile filename, config, req, res, (err) ->
       return next err  if err?
       res.status(201).location("#{filename}").send()
 
@@ -84,8 +90,7 @@ module.exports = exports = (config = {}) ->
       return res.status(414).send()
     if "/#{req.params.filename}" isnt path.resolve '/', req.params.filename
       return res.status(400).send()
-    relPath = "tastes/#{req.params.filename}"
-    fs.exists relPath, (exists) ->
+    fs.exists req.params.filename, (exists) ->
       return res.status(409).send()  if exists
       saveFile relPath, config, req, res, (err) ->
         return next err  if err?
@@ -96,7 +101,7 @@ module.exports = exports = (config = {}) ->
   app
 
 
-exports.saveFile = (relPath, config, req, res, next) ->
+exports.saveFile = (filename, config, req, res, next) ->
   contentType = req.headers['content-type']
   encoding = 'utf-8'
   encoding = mediaTyper.parse(contentType).parameters.charset  if contentType?
@@ -106,4 +111,12 @@ exports.saveFile = (relPath, config, req, res, next) ->
     encoding
   }, (err, data) ->
     return next err  if err?
-    fs.writeFile relPath, data, {encoding}, next
+    fs.writeFile path.join(config.tastesDir, filename), data, {encoding}, (err) ->
+      return next err  if err?
+      return next()  unless config.git?.enable
+      execFile '/bin/sh', ['-c', "git add -f #{filename}"], {cwd: config.tastesDir}, (err) ->
+        return next err  if err?
+        execFile '/bin/sh', ['-c', "git commit -m 'updated #{filename}'"], {cwd: config.tastesDir}, (err) ->
+          return next err  if err?
+          return next()  unless config.git.remoteUrl?
+          execFile '/bin/sh', ['-c', "git push -f origin HEAD:#{config.git.upstream}"], {cwd: config.tastesDir}, next
