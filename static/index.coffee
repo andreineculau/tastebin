@@ -159,7 +159,7 @@ $ () ->
         return ''  unless filename?.length
         "#{date} #{time} <a href=\"\##{filename}\" class=\"hljs-string\">#{filename}</a>\n"
       filesHtml = filesHtml.join ''
-      $list.html(filesHtml).css 'display', ''
+      $list.html filesHtml
 
     fail = () ->
 
@@ -178,6 +178,7 @@ $ () ->
       list()
       return
 
+    $list.html ''
     if filename.indexOf('.') > 0
       [filename..., language] = filename.split '.'
       filename = filename.join '.'
