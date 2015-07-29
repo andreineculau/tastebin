@@ -25,9 +25,13 @@
     <select id="theme">{{& config.themesHtml}}</select>
 
     <pre id="linenos"><code class="hljs"></code></pre>
-    <div id="tableCell">
-      <pre id="editor"><code class="hljs"></code><code id="list" class="hljs"></code></pre>
-    </div>
+    <table id="table">
+      <tr>
+        <td>&nbsp;</td>
+        <td><pre id="editor"><code class="hljs"></code><code id="list" class="hljs"></code></pre></td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
     <div id="newTaste">{{& config.newTaste}}</div>
 
     <script src="index.coffee" type="text/coffeescript"></script>

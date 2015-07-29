@@ -5,26 +5,23 @@ body.editing #theme {
 }
 
 body {
-    display: table !important;
-    min-height: 100vh;
-    width: 100vw;
     padding: 0px !important;
 }
 
-#tableCell {
-    display: table-cell;
+#table {
+    min-height: 100vh;
+    width: 100vw;
+}
+
+#table td {
+    width: 33%;
+    max-width: 99vw;
     vertical-align: middle;
-    width: 100%;
+    overflow-x: auto;
 }
 
 #editor {
-    width: 33%;
     min-height: 0px;
-    overflow: visible;
-}
-
-#editor > code:nth-child(1) {
-    overflow: visible;
 }
 
 body.editing #editor {

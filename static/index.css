@@ -45,6 +45,9 @@ body {
     text-align: right;
     min-height: 95vh;
 }
+body.editing #linenos {
+    display: none;
+}
 
 #editor {
     margin: 0px auto;
@@ -54,7 +57,7 @@ body {
 
 body.editing #editor {
     min-height: 0px;
-    box-shadow: -75px 0px 0px 0px red;
+    box-shadow: -1px 0px 0px 0px red;
 }
 
 #editor > code:nth-child(1) {
