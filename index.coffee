@@ -31,13 +31,13 @@ module.exports = exports = (config = {}) ->
     execFileSync '/bin/sh', ['-c', "git config user.name #{config.pkg.name}"], {cwd: config.tastesDir}
     execFileSync '/bin/sh', ['-c', "git config user.email #{config.pkg.name}@localhost"], {cwd: config.tastesDir}
     if config.git.remoteUrl?
-      execFileSync '/bin/sh', ['-c', "git config remote.origin.url #{config.git.remoteUrl}"], {cwd: config.tastesDir}
-      execFileSync '/bin/sh', ['-c', "git fetch origin"], {cwd: config.tastesDir}
-      execFileSync '/bin/sh', ['-c', "git reset --hard #{config.git.upstream}"], {cwd: config.tastesDir}
-    execFileSync '/bin/sh', ['-c', "git add -f ."], {cwd: config.tastesDir}
+      execFileSync '/bin/sh', ['-c', "git fetch #{config.git.remoteUrl} +refs/heads/*:refs/remotes/origin/*"], {cwd: config.tastesDir}
+      execFileSync '/bin/sh', ['-c', "test -f .git/refs/remotes/origin/#{config.git.upstream} && git reset --hard origin/#{config.git.upstream} || true"], {cwd: config.tastesDir}
+    execFileSync '/bin/sh', ['-c', "git commit --allow-empty -m '#{config.pkg.name} started'"], {cwd: config.tastesDir}
+    execFileSync '/bin/sh', ['-c', "git add -fu ."], {cwd: config.tastesDir}
     execFileSync '/bin/sh', ['-c', "git diff-index --quiet HEAD || git commit -m 'synced with file system'"], {cwd: config.tastesDir}
     if config.git.remoteUrl?
-      execFileSync '/bin/sh', ['-c', "git push -f origin HEAD:#{config.git.upstream}"], {cwd: config.tastesDir}
+      execFileSync '/bin/sh', ['-c', "git push -f #{config.git.remoteUrl} HEAD:#{config.git.upstream}"], {cwd: config.tastesDir}
   app = express.Router {strict: true}
   {saveFile} = exports
 
@@ -126,4 +126,4 @@ exports.saveFile = (filename, config, req, res, next) ->
         execFile '/bin/sh', ['-c', "git diff-index --quiet HEAD || git commit -m 'updated #{filename}'"], {cwd: config.tastesDir}, (err) ->
           return next err  if err?
           return next()  unless config.git.remoteUrl?
-          execFile '/bin/sh', ['-c', "git push -f origin HEAD:#{config.git.upstream}"], {cwd: config.tastesDir}, next
+          execFile '/bin/sh', ['-c', "git push -f #{config.git.remoteUrl} HEAD:#{config.git.upstream}"], {cwd: config.tastesDir}, next
