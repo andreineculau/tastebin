@@ -9,15 +9,16 @@ body {
 }
 
 #table {
-    min-height: 100vh;
-    width: 100vw;
+    height: 100vh;
+    width: 99vw;
+    margin: 0 auto;
 }
 
 #table td {
     width: 33%;
     max-width: 99vw;
     vertical-align: middle;
-    overflow-x: auto;
+    overflow-x: visible;
 }
 
 #editor {
