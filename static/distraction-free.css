@@ -4,7 +4,7 @@ body.editing #theme {
     display: none;
 }
 
-body {
+#wrapper {
     padding: 0px !important;
 }
 
@@ -21,10 +21,18 @@ body {
     overflow-x: visible;
 }
 
-#editor {
+#editorWrapper {
     min-height: 0px;
 }
 
-body.editing #editor {
+body.editing #editorWrapper {
     box-shadow: -1px 0px 0px 0px red;
+}
+
+#editor {
+    white-space: normal;
+}
+
+body.editing #editor {
+    white-space: pre;
 }

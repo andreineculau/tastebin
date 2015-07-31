@@ -19,13 +19,15 @@
     <link rel="stylesheet" href="index.css">
     {{& config.stylesheets}}
   </head>
-  <body class="hljs">
+  <body>
     <select id="hljsStyle">{{& config.hljsStylesHtml}}</select>
     <select id="theme">{{& config.themesHtml}}</select>
-
-    <pre id="linenos"><code class="hljs"></code></pre>
-    <pre id="editor"><code class="hljs"></code><code id="list" class="hljs"></code></pre>
     <div id="newTaste">{{& config.newTaste}}</div>
+
+    <div id="wrapper" class="hljs">
+      <pre id="linenosWrapper"><code id="linenos" class="hljs"></code></pre>
+      <pre id="editorWrapper"><code id="editor" class="hljs"></code><code id="list" class="hljs"></code></pre>
+    </div>
 
     <script src="index.coffee" type="text/coffeescript"></script>
 

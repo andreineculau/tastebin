@@ -5,10 +5,10 @@ $ () ->
   $theme = $ '#theme'
   $hljsStyle = $ '#hljsStyle'
   $selectedHljsStyle = $ '#selectedHljsStyle'
-  $linenos = $ '#linenos'
-  $linenosCode = $ '> code:first', $linenos
-  $editor = $ '#editor'
-  $editorCode = $ '> code:first', $editor
+  $linenosWrapper = $ '#linenosWrapper'
+  $linenos = $ '#linenos', $linenosWrapper
+  $editorWrapper = $ '#editorWrapper'
+  $editor = $ '#editor', $editorWrapper
   $list = $ '#list'
 
   metaKeyName = 'Ctrl'
@@ -16,14 +16,14 @@ $ () ->
   newTaste = $('#newTaste').html().replace /#{metaKeyName}/g, metaKeyName
 
   getDomContent = () ->
-    $editorCode[0].innerText
+    $editor[0].innerText
 
   setContent = (content) ->
-    if 'innerText' of $editorCode[0]
-      contentSrc = $editorCode[0].innerText = content
+    if 'innerText' of $editor[0]
+      contentSrc = $editor[0].innerText = content
     else
       content = content.replace
-      contentSrc = $editorCode[0].innerHTML = he.encode content
+      contentSrc = $editor[0].innerHTML = he.encode content
 
   wantsToEdit = (evt) ->
     metaKey = evt.ctrlKey
@@ -54,7 +54,7 @@ $ () ->
     setTimeout cleanupPaste, 100
 
   keepFocus = (evt) ->
-    $editorCode.focus()
+    $editor.focus()
 
   wantsToSave = (evt) ->
     metaKey = evt.ctrlKey
@@ -101,7 +101,7 @@ $ () ->
         window.location.hash = filename
 
     fail = () ->
-      $linenosCode.html "Failed to save".replace /(.)/g, '$1<br>'
+      $linenos.html "Failed to save".replace /(.)/g, '$1<br>'
       edit()
 
     lock null, 'Saving...'
@@ -114,10 +114,10 @@ $ () ->
     false
 
   edit = (content = contentSrc) ->
-    $editorCode.html content
-    $editorCode.attr('contentEditable', 'true').focus()
+    $editor.html content
+    $editor.attr('contentEditable', 'true').focus()
     $body.addClass 'editing'
-    $editorCode.on 'blur', keepFocus
+    $editor.on 'blur', keepFocus
     $body.off 'keydown', maybeStartEditing
     $body.off 'keydown', disableSave
     $body.on 'keydown', maybeSave
@@ -130,12 +130,12 @@ $ () ->
         lines = [1..linenosCount]
     else
       lines = lines.split ''
-    $linenosCode.html lines.join '<br>'
-    $editorCode.html content
+    $linenos.html lines.join '<br>'
+    $editor.html content
 
-    $editorCode.attr 'contentEditable', 'false'
+    $editor.attr 'contentEditable', 'false'
     $body.removeClass 'editing'
-    $editorCode.off 'blur', keepFocus
+    $editor.off 'blur', keepFocus
     $body.on 'keydown', maybeStartEditing
     $body.on 'keydown', disableSave
     $body.off 'keydown', maybeSave
@@ -230,7 +230,7 @@ $ () ->
   if localHljsStyle?
     $("> option[value=\"#{localHljsStyle}\"]", $hljsStyle).prop 'selected', 'selected'
 
-  $editorCode.on 'paste', scheduleCleanupPaste
+  $editor.on 'paste', scheduleCleanupPaste
 
   hash = window.location.hash.replace /^#/, ''
   tryLoading hash

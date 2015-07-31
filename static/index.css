@@ -1,6 +1,5 @@
 body {
     padding: 0px !important;
-    padding-left: 75px !important;
 }
 
 #hljsStyle {
@@ -31,37 +30,44 @@ body {
     display: none;
 }
 
-#linenos {
+#wrapper {
+    padding-left: 75px !important;
+    min-height: 100vh;
+}
+
+#linenosWrapper {
     position: absolute;
     left: 0px;
     width: 70px;
     margin: 0px;
 }
 
-#linenos > code:nth-child(1) {
+body.editing #linenosWrapper {
+    display: none;
+}
+
+#linenos {
     display: block;
     padding-left: 10px !important;
     padding-right: 10px !important;
     text-align: right;
     min-height: 95vh;
 }
-body.editing #linenos {
-    display: none;
-}
 
-#editor {
+#editorWrapper {
     margin: 0px auto;
     outline: none;
     min-height: 95vh;
 }
 
-body.editing #editor {
+body.editing #editorWrapper {
     min-height: 0px;
     box-shadow: -1px 0px 0px 0px red;
 }
 
-#editor > code:nth-child(1) {
+#editor {
     outline: none;
+    min-height: 1em;
 }
 
 #list {
@@ -70,6 +76,10 @@ body.editing #editor {
 
 #list:hover {
     opacity: 1;
+}
+
+body.editing #list {
+    display: none;
 }
 
 #list > ol {
@@ -82,8 +92,4 @@ body.editing #editor {
 
 #list > ol > li > a {
     text-decoration: none;
-}
-
-body.editing #list {
-    display: none;
 }
