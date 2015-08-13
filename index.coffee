@@ -78,7 +78,7 @@ module.exports = exports = (config = {}) ->
       res.status(200).set('Content-Type', 'text/plain').send()
       return
     maxListCount = config.maxListCount + 1
-    shCmd = "TIME_STYLE=long-iso ls -tl | head -#{maxListCount} | tail -n +2 | tr -s ' ' | cut -d' ' -f6,7,8"
+    shCmd = "TIME_STYLE=long-iso $(which gnuls || which gls || which ls) -tl | head -#{maxListCount} | tail -n +2 | tr -s ' ' | cut -d' ' -f6,7,8"
     execOptions = {cwd: "#{__dirname}/tastes/"}
     execFile '/bin/sh', ['-c', shCmd], execOptions, (err, stdout, stderr) ->
       return next err  if err?

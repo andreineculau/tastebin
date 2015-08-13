@@ -45,6 +45,14 @@ In production, try
 * Firefox 39
 
 
+## Dependencies
+
+* NodeJS
+* *nix OS
+* `git` in the $PATH
+* GNU ls in the $PATH as `gnuls`, `gls` or `ls`
+
+
 ## Shell with curl/httpie
 
 ```sh
