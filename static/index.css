@@ -42,6 +42,31 @@ body.editing #theme {
     display: none;
 }
 
+#rawLink {
+    position: absolute;
+    right: 0px;
+    top: 3em;
+    opacity: 0.25;
+    z-index: 100;
+    min-width: 10em;
+    max-width: 10em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: none;
+}
+
+#rawLink:hover {
+    opacity: 1;
+}
+
+body.loaded #rawLink {
+    display: block;
+}
+
+body.editing #rawLink {
+    display: none;
+}
+
 #newTaste {
     display: none;
 }

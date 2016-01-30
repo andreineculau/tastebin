@@ -10,6 +10,7 @@ $ () ->
   $editorWrapper = $ '#editorWrapper'
   $editor = $ '#editor', $editorWrapper
   $list = $ '#list'
+  $rawLink = $ '#rawLink'
 
   metaKeyName = 'Ctrl'
   metaKeyName = 'Cmd'  if /^Mac/.test navigator.platform
@@ -97,16 +98,20 @@ $ () ->
       edit()
 
     done = (body, status, xhr) ->
+      $body.addClass 'loaded'
       if method is 'POST'
-        window.location.hash = xhr.getResponseHeader 'Location'
-      else
-        window.location.hash = filename
+        filename = xhr.getResponseHeader 'Location'
+      window.location.hash = filename
+      $rawLink.html filename
+      $rawLink.on 'click', () ->
+        window.prompt '', window.location.href.replace(/#.*/, '') + "tastes/#{filename}"
 
     fail = () ->
       $linenos.html "Failed to save".replace /(.)/g, '$1<br>'
       edit()
 
     lock null, 'Saving...'
+    $body.removeClass 'loaded'
     $.ajax({
       method
       url
@@ -165,6 +170,7 @@ $ () ->
 
     fail = () ->
 
+    $body.removeClass 'loaded'
     $.ajax({
       method: 'GET'
       url: 'tastes/'
@@ -186,7 +192,10 @@ $ () ->
       filename = filename.join '.'
 
     done = (body, status, xhr) ->
-      setContent body
+      $body.addClass 'loaded'
+      $rawLink.html filename
+      $rawLink.on 'click', () ->
+        window.prompt '', window.location.href.replace(/#.*/, '') + "tastes/#{filename}"
       if language?
         try
           high = hljs.highlight language, body
@@ -204,6 +213,7 @@ $ () ->
 
     lock '', 'Loading...'
     $body.off 'keydown', maybeStartEditing
+    $body.removeClass 'loaded'
     $.ajax({
       url: "tastes/#{filename}"
     }).done(done).fail(fail)
