@@ -1,0 +1,12 @@
+{
+  "name": "Tastebin",
+  "description": "A pastebin with taste i.e. minimalistic",
+  "keywords": [
+    "gist",
+    "pastebin",
+    "snippet"
+  ],
+  "website": "http://tastebin.x-berg.de",
+  "repository": "https://github.com/andreineculau/tastebin",
+  "logo": "http://tastebin.x-berg.de/favicon.png",
+}
