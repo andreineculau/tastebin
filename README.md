@@ -2,6 +2,8 @@
 
 A pastebin with taste i.e. minimalistic
 
+For a *wiki* flavour of Tastebin, see https://github.com/andreineculau/tastetyper
+
 * server: NodeJS, CoffeeScript, ExpressJS, ...
 * client: HTML5, CoffeeScript, HighlightJs, ...
 
