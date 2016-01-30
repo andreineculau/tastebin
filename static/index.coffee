@@ -26,6 +26,7 @@ $ () ->
       contentSrc = $editor[0].innerHTML = he.encode content
 
   wantsToEdit = (evt) ->
+    return false  if evt.altKey
     metaKey = evt.ctrlKey
     metaKey = evt.metaKey  if /^Mac/.test navigator.platform
     return false  unless metaKey
@@ -57,6 +58,7 @@ $ () ->
     $editor.focus()
 
   wantsToSave = (evt) ->
+    return false  if evt.altKey
     metaKey = evt.ctrlKey
     metaKey = evt.metaKey  if /^Mac/.test navigator.platform
     return false  unless metaKey
