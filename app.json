@@ -8,5 +8,6 @@
   ],
   "website": "http://tastebin.x-berg.de",
   "repository": "https://github.com/andreineculau/tastebin",
-  "logo": "https://raw.githubusercontent.com/andreineculau/tastebin/master/static/iconmonstr-cut-icon-256.png"
+  "logo": "https://raw.githubusercontent.com/andreineculau/tastebin/master/static/iconmonstr-cut-icon-256.png",
+  "success_url": "/"
 }
